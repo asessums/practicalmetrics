@@ -5,7 +5,7 @@ library(sqldf, quietly = TRUE)
 library(gt, quietly = TRUE)
 library(ggplot2, quietly = TRUE)
 library(knitr, quietly = TRUE)
-library(scales)
+library(scales, quietly = TRUE)
 sf_auth()
 
 last_week_proposals <- sprintf("SELECT Id, Name, HRA_Fees_Proposed__c, Office__c, PICText__c, Project_Manager__c, Proposal_Due_Date__c, Proposal_Type__c, Probability_of_Win__c, Anticipated_Budget_Range__c, Source__c FROM Project__c WHERE Stage__c = 'Proposal' AND Status__c NOT IN ('Dropped') AND Proposal_Due_Date__c >= 2020-09-27 AND Proposal_Due_Date__c <= 2020-10-03 ORDER BY Proposal_Due_Date__c")
@@ -38,11 +38,11 @@ summary(proposals_query)
 
 # Sharing Reproducible Data
 
-Last week, the firm submitted `r nrow(proposals)` proposals submitted worth `r format(sum(proposals$Fees), scientific = FALSE)`, or `r format(sum(proposals$Fees) / nrow(proposals), scientific = FALSE)` per proposal.
+Last week, the firm submitted `r nrow(proposals)` proposals submitted worth `r format(sum(proposals$Fees), scientific = FALSE)`, or `r format(sum(proposals$Fees) / nrow(proposals), scientific = FALSE)` per proposal. But, roses are \textcolor{red}{red}, violets are \textcolor{blue}{blue}
 
 # Including Plots
 
-You can also embed plots, tables, and graphs. For example:
+You can also embed plots and graphs like this:
 
 ```{r fig.width = 3.5, fig.height = 5, echo = FALSE}
 p <- proposals %>%
@@ -52,6 +52,16 @@ ggplot(title = 'Proposal $ by Office', data=p, aes(x = Office, y = Fees)) +
   scale_y_continuous(labels = comma) +
   geom_bar(stat="identity", fill = "steelblue") +
   geom_text(aes(label = Fees), vjust=1.6, color = "white", position = position_dodge(.9), size = 3.5) + theme_minimal() + ggtitle("Proposal $ by Office")
+```
+
+# Including Tables
+
+Tables can also be easily produced and formatted like this:
+
+```{r echo = FALSE}
+knitr::kable(
+  head(proposals[,1:4]), align = 'l', caption = 'Last Weeks Proposals',
+  booktabs = TRUE)
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
