@@ -1,11 +1,16 @@
-```{r echo = FALSE}
+## Reference Libraries
+
+```{r, message=F, warning=F}
 library(dplyr, quietly = TRUE)
 library(salesforcer, quietly = TRUE)
 library(sqldf, quietly = TRUE)
 library(gt, quietly = TRUE)
 library(ggplot2, quietly = TRUE)
-library(knitr, quietly = TRUE)
+library(knitr)
 library(scales, quietly = TRUE)
+```
+
+```{r, echo=F}
 sf_auth()
 
 last_week_proposals <- sprintf("SELECT Id, Name, HRA_Fees_Proposed__c, Office__c, PICText__c, Project_Manager__c, Proposal_Due_Date__c, Proposal_Type__c, Probability_of_Win__c, Anticipated_Budget_Range__c, Source__c FROM Project__c WHERE Stage__c = 'Proposal' AND Status__c NOT IN ('Dropped') AND Proposal_Due_Date__c >= 2020-09-27 AND Proposal_Due_Date__c <= 2020-10-03 ORDER BY Proposal_Due_Date__c")
@@ -20,7 +25,7 @@ date: `r Sys.Date()`
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=F, warning=F}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
@@ -28,7 +33,7 @@ knitr::opts_chunk$set(echo = FALSE)
 # Metrics Tracking - Last Week's Proposal Analysis
 Produced on `r Sys.Date()`
 
-This is an R Markdown document. Markdown is a simple, reproducible tool for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown as an Analytics tool, you can reference the RStudio website at <http://rmarkdown.rstudio.com>.
+This is a demonstration of an R Markdown document. Markdown is a simple tool for authoring reproducible HTML, PDF, and MS Word documents. For more details on using R Markdown as an Analytics tool, you can reference the RStudio website at <http://rmarkdown.rstudio.com>.
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
@@ -38,7 +43,9 @@ summary(proposals_query)
 
 # Sharing Reproducible Data
 
-Last week, the firm submitted `r nrow(proposals)` proposals submitted worth `r format(sum(proposals$Fees), scientific = FALSE)`, or `r format(sum(proposals$Fees) / nrow(proposals), scientific = FALSE)` per proposal. But, roses are \textcolor{red}{red}, violets are \textcolor{blue}{blue}
+Here is an example of automated analysis:
+
+Last week, the firm submitted `r nrow(proposals)` proposals submitted worth `r format(sum(proposals$Fees), scientific = FALSE)`, or `r format(sum(proposals$Fees) / nrow(proposals), scientific = FALSE)` per proposal. 
 
 # Including Plots
 
